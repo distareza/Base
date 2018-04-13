@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.reza</groupId>
+    <artifactId>webservice</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>webservice</name>
+    <description>Web Service</description>
+    <url>http://maven.apache.org</url>
+    
+    <properties>
+	    <maven.compiler.source>1.7</maven.compiler.source>
+	    <maven.compiler.target>1.7</maven.compiler.target>
+        <spring.version>3.1.2.RELEASE</spring.version>
+        <skipTests>true</skipTests>
+    </properties>
+    <dependencies>
+         <!-- for rest app using jersey -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-core</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>1.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-bundle</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <!-- Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        
+	    <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-webmvc</artifactId>
+          <version>${spring.version}</version>
+	    </dependency>
+	            
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		
+ 		<dependency>
+            <groupId>log4j</groupId>
+            <artifactId>apache-log4j-extras</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+            <scope>compile</scope>
+        </dependency>
+ 
+ 		<!-- http://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.4</version>
+		</dependency>
+
+		<!-- http://mvnrepository.com/artifact/org.springframework/spring-mock -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-mock</artifactId>
+		    <version>2.0.8</version>
+		</dependency>
+	</dependencies>
+	
+	<!-- Profile configuration -->
+    <profiles>
+        <!-- The configuration of the development profile -->
+        <profile>
+            <id>dev</id>
+            <!-- The development profile is active by default -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.profile.id>dev</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>itg</id>
+            <properties>
+                <build.profile.id>itg</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <build.profile.id>pro</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
+    
+    <build>
+        <finalName>webservice</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>              
+                     <resource>
+                        <filtering>true</filtering>
+                        <targetPath>WEB-INF</targetPath>
+                        <!--  <targetPath>sources</targetPath>-->
+                        <!-- <directory>src/main/resources/${build.profile.id}</directory> -->
+                         <directory>src/main/resources/</directory>
+                         <includes>
+                            <include>applicationContext.xml</include>
+                            <include>log4j.properties</include>
+                            <include>config.properties</include>
+                        </includes>
+                    </resource>
+					<resource>
+						<directory>src/main/java</directory>
+						<targetPath>WEB-INF/classes</targetPath>
+						<includes>
+							<include>**/*.sql</include>
+						</includes>
+					</resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources> 
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>dev/**</exclude>
+                    <exclude>itg/**</exclude>
+                    <exclude>pro/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
+</project>         
