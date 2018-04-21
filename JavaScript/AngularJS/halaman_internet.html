@@ -1,0 +1,19 @@
+<html ng-app="belajar">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script type="text/javascript">
+		
+		var appBelajar = angular.module('belajar', []);
+		
+		appBelajar.controller('ctrl1', function ( $scope ) {
+			
+			$scope.nama = 'Husna';
+		});
+		
+	</script>
+<body ng-controller="ctrl1">
+	
+	<p>Siapa Nama Kamu ? <input type="text" ng-model="nama"/></p>
+	<p>Hallo {{ nama }} </p>
+	
+</body>
+</html>
